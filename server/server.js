@@ -12,11 +12,20 @@ const app = express();
 app.use(cors());
 
 const server = http.createServer(app);
-const io = socketio(server);
+const io = new socketio.Server(server, {
+    cors: { 
+        origin: "http://localhost/5000",
+        methods: ["GET", "POST"],
+    }
+});
 
 // Run when client connects
-io.on('connection', socket => {
-    console.log('New web socket connection...');
+io.on("connection", (socket) => {
+    console.log('New web socket connection...', socket.id);
+
+    io.on("disconnect", () => {
+        console.log("User has disconnected", socket.id);
+    })
 });
 
 
