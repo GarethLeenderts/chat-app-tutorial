@@ -1,11 +1,16 @@
 const express = require('express');
 const http = require('http');
 const socketio = require('socket.io');
+const cors = require('cors');
 
 
 require('dotenv').config();
 
 const app = express();
+
+// Cors middleware
+app.use(cors());
+
 const server = http.createServer(app);
 const io = socketio(server);
 
@@ -16,6 +21,6 @@ io.on('connection', socket => {
 
 
 
-const PORT = 3000 || process.env.PORT;
+const PORT = 5000 || process.env.PORT;
 
 server.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

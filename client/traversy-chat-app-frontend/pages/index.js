@@ -5,7 +5,11 @@ import styles from '../styles/Home.module.css'
 // const socket = io();
 import { io } from "socket.io-client";
 
+// const socket = io("http://localhost/5000");
+const socket = io.connect("http://localhost/5000");
+
 export default function Home() {
+  return (
     <html lang="en">
       <head>
         <meta charset="UTF-8" />
@@ -53,11 +57,13 @@ export default function Home() {
           integrity="sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4="
           crossorigin="anonymous"
         ></script>
+        {/* <script> const socket = io("http://localhost/5000"); </script> */}
         {/* <script src="/socket.io/socket.io.js"></script>
         <script> const socket = io(); <script> */}
         {/* <script src="js/main.js"></script> */}
       </body>
     </html>
+  )
 }
 
 // export default function Home() {
