@@ -14,7 +14,7 @@ app.use(cors());
 const server = http.createServer(app);
 const io = new socketio.Server(server, {
     cors: { 
-        origin: "http://localhost/5000",
+        origin: "http://localhost:3000",
         methods: ["GET", "POST"],
     }
 });
@@ -23,9 +23,20 @@ const io = new socketio.Server(server, {
 io.on("connection", (socket) => {
     console.log('New web socket connection...', socket.id);
 
-    io.on("disconnect", () => {
-        console.log("User has disconnected", socket.id);
+    socket.on("join_room", (roomID) => {
+        socket.join(roomID);
+        console.log(`User with ID: ${socket.id} joined room: ${roomID}`)
+    });
+
+    socket.on("send_message", async (data) => {
+        console.log(data);
+
+        await socket.to(data.roomID).emit("receive_message", data)
     })
+
+    socket.on("disconnect", () => {
+        console.log("User has disconnected...", socket.id);
+    });
 });
 
 
